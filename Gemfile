@@ -17,7 +17,7 @@ gem "inertia_rails", "~> 3.16"
 gem "vite_rails", "~> 3.0"
 
 # Auth.
-gem "devise", "~> 4.9"
+gem "devise", "~> 5.0"
 
 # Config.
 gem "dotenv-rails"
