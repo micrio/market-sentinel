@@ -7,7 +7,7 @@ class QuotesController < ApplicationController
   def index
     symbols = params[:symbols].to_s.split(",").map { |s| s.strip.upcase }.reject(&:blank?).first(40)
     quotes = symbols.filter_map do |symbol|
-      quote = StockQuote.new(symbol).fetch
+      quote = QuoteLookup.call(symbol)
       quote && serialize(quote)
     end
 
@@ -24,7 +24,8 @@ class QuotesController < ApplicationController
       previousClose: quote.previous_close,
       change: quote.change,
       changePercent: quote.change_percent,
-      currency: quote.currency
+      currency: quote.currency,
+      updatedAt: quote.updated_at&.iso8601
     }
   end
 end

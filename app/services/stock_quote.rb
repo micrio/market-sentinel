@@ -12,7 +12,7 @@ class StockQuote
                "(KHTML, like Gecko) Chrome/124.0 Safari/537.36"
 
   Result = Struct.new(
-    :symbol, :name, :price, :previous_close, :change, :change_percent, :currency,
+    :symbol, :name, :price, :previous_close, :change, :change_percent, :currency, :updated_at,
     keyword_init: true
   )
 
