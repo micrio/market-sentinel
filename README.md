@@ -34,6 +34,15 @@ report backed by recent financial headlines — all without paid data APIs.
 - Runs on **Solid Queue** with live **progress** (Queued → crawling → scoring →
   saving). Every run is persisted per user and symbol.
 
+## Screenshots
+<img width="1504" height="859" alt="Screenshot 2026-09-30 at 6 07 35 PM" src="https://github.com/user-attachments/assets/3ac1ac9e-03af-4dcd-af2e-37c91fbcb981" />
+<img width="1504" height="859" alt="Screenshot 2026-09-30 at 6 07 40 PM" src="https://github.com/user-attachments/assets/82b4f908-59a4-4bad-abe3-b3a0f051346e" />
+<img width="1504" height="859" alt="Screenshot 2026-09-30 at 6 07 47 PM" src="https://github.com/user-attachments/assets/97d66cf8-489a-42f8-aa46-b61f6bbbb295" />
+<img width="1504" height="859" alt="Screenshot 2026-09-30 at 6 07 55 PM" src="https://github.com/user-attachments/assets/982af608-f56d-4a88-9ba1-92843aa031ea" />
+<img width="1504" height="859" alt="Screenshot 2026-09-30 at 6 08 00 PM" src="https://github.com/user-attachments/assets/7d45057d-2fd4-46e1-91b7-5a5ed412d84f" />
+<img width="1504" height="859" alt="Screenshot 2026-09-30 at 6 08 10 PM" src="https://github.com/user-attachments/assets/7f03cfad-3a94-4223-bd25-cd22a82407e9" />
+
+
 ## Stack
 
 - **Rails 7.2** + **Inertia.js** (`inertia_rails`) + **React 19** +
