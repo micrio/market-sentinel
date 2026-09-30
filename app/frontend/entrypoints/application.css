@@ -1,0 +1,156 @@
+@import 'tailwindcss';
+
+@plugin '@tailwindcss/forms';
+@plugin '@tailwindcss/typography';
+
+/* Tailwind v4 resets buttons to `cursor: default`. Make clickable controls
+   show the hand cursor again. */
+@layer base {
+  button:not(:disabled),
+  [role='button']:not(:disabled),
+  a[href],
+  label[for],
+  summary,
+  select:not(:disabled),
+  input[type='color']:not(:disabled),
+  input[type='file']:not(:disabled),
+  input[type='range']:not(:disabled) {
+    cursor: pointer;
+  }
+
+  /* Clean, subtle hover feedback instead of scale bounce. */
+  button,
+  a[href],
+  [role='button'] {
+    transition:
+      filter 150ms ease,
+      color 150ms ease,
+      background-color 150ms ease,
+      border-color 150ms ease;
+  }
+
+  button:not(:disabled):hover,
+  a[href]:hover,
+  [role='button']:not(:disabled):hover {
+    filter: brightness(1.12);
+  }
+
+  button:not(:disabled):active,
+  a[href]:active,
+  [role='button']:not(:disabled):active {
+    filter: brightness(0.96);
+  }
+}
+
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 3s linear infinite;
+}
+
+/* Scroll reveal (see Home/Index.tsx) — subtle fade + rise, no bounce. */
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes reveal-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.reveal {
+  opacity: 0;
+}
+
+.reveal.is-visible {
+  animation: reveal-up 0.6s ease-out both;
+}
+
+/* Reduced motion: keep a gentle fade, drop the movement. */
+@media (prefers-reduced-motion: reduce) {
+  .reveal.is-visible {
+    animation: reveal-fade 0.5s ease-out both;
+  }
+}
+
+/* Hover highlight for cards that carry an inline border. */
+.card-hover {
+  transition: border-color 150ms ease, background-color 150ms ease;
+}
+
+.card-hover:hover {
+  border-color: rgba(56, 189, 248, 0.45) !important;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.chat-input {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.chat-input:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.chat-input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.chat-input.light-placeholder::placeholder {
+  color: rgba(0, 0, 0, 0.38);
+}

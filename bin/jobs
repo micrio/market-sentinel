@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+require_relative "../config/environment"
+require "solid_queue/cli"
+
+# Default to async (no-fork) mode: forking after Rails has opened SQLite
+# connections triggers the sqlite3 fork-safety warning (and is unsafe).
+# Override with SOLID_QUEUE_SUPERVISOR_MODE=fork or `bin/jobs --mode fork`.
+ENV["SOLID_QUEUE_SUPERVISOR_MODE"] ||= "async"
+
+SolidQueue::Cli.start(ARGV)
