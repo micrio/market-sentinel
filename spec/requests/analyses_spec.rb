@@ -26,6 +26,37 @@ RSpec.describe "Analyses", type: :request do
 
       expect(response).to have_http_status(:unprocessable_content)
     end
+
+    it "reuses a recent completed run without enqueuing" do
+      existing = create(:analysis, user: user, symbol: "AAPL", status: "completed", created_at: 5.minutes.ago)
+
+      expect do
+        post analyze_path(symbol: "AAPL")
+      end.not_to have_enqueued_job(AnalysisJob)
+
+      expect(response).to have_http_status(:ok)
+      expect(response.parsed_body["id"]).to eq(existing.id)
+    end
+
+    it "reuses an in-flight run without enqueuing a duplicate" do
+      existing = create(:analysis, user: user, symbol: "AAPL", status: "running")
+
+      expect do
+        post analyze_path(symbol: "AAPL")
+      end.not_to have_enqueued_job(AnalysisJob)
+
+      expect(response.parsed_body["id"]).to eq(existing.id)
+    end
+
+    it "enqueues a new run when the last completed one is stale" do
+      create(:analysis, user: user, symbol: "AAPL", status: "completed", created_at: 2.hours.ago)
+
+      expect do
+        post analyze_path(symbol: "AAPL")
+      end.to have_enqueued_job(AnalysisJob)
+
+      expect(response).to have_http_status(:created)
+    end
   end
 
   describe "GET /analyses/:id" do

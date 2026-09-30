@@ -173,7 +173,8 @@ export default function Index({ watchlist, analyses: initialAnalyses }: Props) {
     try {
       const created = await postJson<AnalysisPayload>(`/analyze/${symbol}`)
       setAnalyses((prev) => ({ ...prev, [symbol]: created }))
-      poll(created.id, symbol)
+      // A reused (completed) run needs no polling.
+      if (created.status === 'pending' || created.status === 'running') poll(created.id, symbol)
     } catch (error) {
       setAnalyses((prev) => ({
         ...prev,
