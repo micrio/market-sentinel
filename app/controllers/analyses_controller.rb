@@ -11,7 +11,7 @@ class AnalysesController < ApplicationController
       return render json: { error: "A ticker symbol is required." }, status: :unprocessable_content
     end
 
-    analysis = current_user.analyses.create!(symbol: symbol, status: "pending")
+    analysis = current_user.analyses.create!(symbol: symbol, status: "pending", stage: "Queued", progress: 0)
     AnalysisJob.perform_later(analysis.id)
 
     render json: analysis.as_json_payload, status: :created

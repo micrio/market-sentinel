@@ -21,6 +21,8 @@ RSpec.describe AnalysisJob do
 
     analysis.reload
     expect(analysis).to be_completed
+    expect(analysis.progress).to eq(100)
+    expect(analysis.stage).to eq("Completed")
     expect(analysis.bullish).to eq(70)
     expect(analysis.catalysts).to eq([ "Earnings beat" ])
     expect(analysis.articles.first["title"]).to eq("Apple beats earnings")

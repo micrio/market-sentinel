@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_09_30_100002) do
+ActiveRecord::Schema[7.2].define(version: 2026_09_30_100003) do
   create_table "analyses", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "symbol", null: false
@@ -26,6 +26,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_09_30_100002) do
     t.datetime "completed_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "progress", default: 0, null: false
+    t.string "stage"
     t.index ["status"], name: "index_analyses_on_status"
     t.index ["symbol", "created_at"], name: "index_analyses_on_symbol_and_created_at"
     t.index ["user_id"], name: "index_analyses_on_user_id"

@@ -40,4 +40,16 @@ RSpec.describe NewsCrawler do
 
     expect(crawler.call).to eq([])
   end
+
+  it "keeps up to 5 items per source" do
+    items = (1..8).map do |i|
+      "<item><title>Story #{i}</title><link>https://news.test/#{i}</link>" \
+        "<pubDate>0#{i} Jan 2026 10:00:00 GMT</pubDate></item>"
+    end.join
+    rss = %(<?xml version="1.0"?><rss version="2.0"><channel>#{items}</channel></rss>)
+    crawler = described_class.new("AAPL")
+    allow(crawler).to receive(:get).and_return(rss)
+
+    expect(crawler.call.size).to eq(5)
+  end
 end

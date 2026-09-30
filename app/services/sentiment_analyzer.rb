@@ -79,7 +79,7 @@ class SentimentAnalyzer
   end
 
   def article_digest
-    @articles.first(10).map.with_index(1) do |article, index|
+    @articles.first(15).map.with_index(1) do |article, index|
       date = article.published_at&.strftime("%Y-%m-%d") || "unknown date"
       "#{index}. #{article.title} (#{article.source}, #{date})\n   #{article.snippet}"
     end.join("\n")

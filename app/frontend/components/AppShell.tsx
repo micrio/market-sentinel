@@ -54,7 +54,7 @@ export default function AppShell({ children }: { children: ReactNode }) {
 
       <main className="mx-auto max-w-6xl px-4 py-6">{children}</main>
 
-      <footer className="mx-auto max-w-6xl px-4 pb-8 pt-4 text-center text-[11px] text-slate-600">
+      <footer className="mx-auto max-w-6xl px-4 pb-8 pt-4 text-center text-[11px] text-amber-300/80">
         Educational tool only. Not financial advice.
       </footer>
     </div>

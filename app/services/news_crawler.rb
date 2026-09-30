@@ -6,34 +6,53 @@ require "cgi"
 require "time"
 
 # Crawls recent financial headlines for a ticker from public RSS feeds
-# (Yahoo Finance + Google News). Robust: any failing source is skipped.
+# (Nasdaq + Google News + Bing News). Robust: any failing source is skipped,
+# and each source contributes its own newest slice.
 class NewsCrawler
   USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 " \
                "(KHTML, like Gecko) Chrome/124.0 Safari/537.36"
 
   Article = Struct.new(:title, :url, :source, :published_at, :snippet, keyword_init: true)
 
+  DEFAULT_PER_SOURCE = 5
+
+  # Keep this list to 3 sources max — more feeds slow the job and add noise.
   FEEDS = [
-    { source: "Yahoo Finance", url: "https://finance.yahoo.com/rss/headline?s=%<symbol>s" },
+    {
+      source: "Nasdaq",
+      url: "https://www.nasdaq.com/feed/rssoutbound?ticker=%<symbol>s"
+    },
     {
       source: "Google News",
       url: "https://news.google.com/rss/search?q=%<symbol>s+stock&hl=en-US&gl=US&ceid=US:en"
+    },
+    {
+      source: "Bing News",
+      url: "https://www.bing.com/news/search?q=%<symbol>s+stock&format=RSS"
     }
   ].freeze
 
-  def initialize(symbol, timeout: 10, limit: 10)
+  # `limit: nil` keeps every per-source slice; pass an Integer to cap the total.
+  def initialize(symbol, timeout: 10, per_source: DEFAULT_PER_SOURCE, limit: nil)
     @symbol = symbol.to_s.strip.upcase
     @timeout = timeout
+    @per_source = per_source
     @limit = limit
   end
 
   def call
-    articles = FEEDS.flat_map { |feed| fetch_feed(feed[:source], feed[:url] % { symbol: CGI.escape(@symbol) }) }
-    articles
-      .uniq { |article| article.url }
-      .sort_by { |article| article.published_at || Time.at(0) }
-      .reverse
-      .first(@limit)
+    articles = FEEDS.flat_map do |feed|
+      fetch_feed(feed[:source], feed[:url] % { symbol: CGI.escape(@symbol) })
+        .sort_by { |article| article.published_at || Time.at(0) }
+        .reverse
+        .first(@per_source)
+    end
+
+    articles = articles
+               .uniq { |article| article.url }
+               .sort_by { |article| article.published_at || Time.at(0) }
+               .reverse
+    @limit ? articles.first(@limit) : articles
   end
 
   private

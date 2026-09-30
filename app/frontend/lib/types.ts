@@ -24,9 +24,22 @@ export interface QuoteProps {
   change: number
   changePercent: number
   currency?: string | null
+  updatedAt?: string | null
 }
 
 export type AnalysisStatus = 'pending' | 'running' | 'completed' | 'failed'
+
+export interface AnalysisSummary {
+  id: number
+  symbol: string
+  status: AnalysisStatus
+  stage?: string | null
+  progress?: number
+  sentiment?: { bullish: number; bearish: number; neutral: number }
+  horizons?: { week?: Horizon; month?: Horizon; year?: Horizon }
+  error: string | null
+  createdAt: string
+}
 
 export type Bias = 'Bullish' | 'Bearish' | 'Neutral'
 
@@ -48,6 +61,8 @@ export interface AnalysisPayload {
   id: number
   symbol: string
   status: AnalysisStatus
+  stage?: string | null
+  progress?: number
   error: string | null
   createdAt: string
   sentiment?: { bullish: number; bearish: number; neutral: number }

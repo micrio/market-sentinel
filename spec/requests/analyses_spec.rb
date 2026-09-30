@@ -17,6 +17,8 @@ RSpec.describe "Analyses", type: :request do
       body = response.parsed_body
       expect(body["symbol"]).to eq("AAPL")
       expect(body["status"]).to eq("pending")
+      expect(body["stage"]).to eq("Queued")
+      expect(body["progress"]).to eq(0)
     end
 
     it "rejects a blank symbol" do

@@ -9,6 +9,7 @@ class Analysis < ApplicationRecord
 
   validates :symbol, presence: true
   validates :status, inclusion: { in: STATUSES }
+  validates :progress, numericality: { only_integer: true, in: 0..100 }
 
   scope :recent, -> { order(created_at: :desc) }
 
@@ -29,14 +30,16 @@ class Analysis < ApplicationRecord
       id: id,
       symbol: symbol,
       status: status,
+      stage: stage,
+      progress: progress,
+      sentiment: { bullish: bullish, bearish: bearish, neutral: neutral },
+      horizons: horizons || {},
       error: error,
       createdAt: created_at.iso8601
     }
 
     if include_details
       payload.merge!(
-        sentiment: { bullish: bullish, bearish: bearish, neutral: neutral },
-        horizons: horizons || {},
         catalysts: catalysts || [],
         articles: articles || [],
         summary: summary,
