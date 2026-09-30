@@ -9,6 +9,9 @@ export default function SignIn() {
 
   function submit(event: React.FormEvent) {
     event.preventDefault()
+    form.transform((data) => ({
+      user: { email: data.email, password: data.password, remember_me: data.remember },
+    }))
     form.post('/users/sign_in')
   }
 

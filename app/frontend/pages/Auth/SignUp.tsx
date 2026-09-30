@@ -9,6 +9,7 @@ export default function SignUp() {
 
   function submit(event: React.FormEvent) {
     event.preventDefault()
+    form.transform((data) => ({ user: data }))
     form.post('/users/sign_up')
   }
 
