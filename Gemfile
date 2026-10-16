@@ -10,7 +10,7 @@ gem "tzinfo-data", platforms: %i[ windows jruby ]
 gem "bootsnap", require: false
 
 # Rails 7.2 passes :quirks_mode to JSON.generate, removed in json 3.x.
-gem "json", "~> 2.7"
+gem "json", "~> 3.1"
 
 # Inertia.js + Vite/React frontend.
 gem "inertia_rails", "~> 3.16"
