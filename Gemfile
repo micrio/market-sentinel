@@ -13,7 +13,7 @@ gem "bootsnap", require: false
 gem "json", "~> 2.7"
 
 # Inertia.js + Vite/React frontend.
-gem "inertia_rails", "~> 3.16"
+gem "inertia_rails", "~> 3.23"
 gem "vite_rails", "~> 3.0"
 
 # Auth.
